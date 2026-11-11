@@ -1,0 +1,415 @@
+:root {
+  --asphalt: #0a0b0d;
+  --pit: #121419;
+  --curb: #1b1e25;
+  --line: #262a33;
+  --text: #f2f4f7;
+  --muted: #8a91a0;
+  --neon: #c6ff3d;
+  --gold: #ffc53d;
+  --silver: #c9d1dc;
+  --bronze: #e08a4f;
+  --flag: #ff3d5a;
+
+  --display: "Titillium Web", "Arial Narrow", system-ui, sans-serif;
+  --body: "Titillium Web", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --radius: 16px;
+  --tap: 44px;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--asphalt);
+  color: var(--text);
+  font: 15px/1.4 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+
+/* ---------- Shell: centered mobile column ---------- */
+.shell {
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--asphalt);
+  border-inline: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+}
+
+main {
+  padding: 16px 16px calc(32px + env(safe-area-inset-bottom));
+  outline: none;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 8px;
+  padding-top: env(safe-area-inset-top);
+  box-sizing: content-box;
+  background: color-mix(in oklab, var(--asphalt) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+}
+
+.brand {
+  padding: 0 12px;
+  font: italic 700 22px/1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.brand span { color: var(--neon); }
+
+/* Back button is hidden by default (landing page); shown only on inner pages. */
+.back { display: none; }
+.topbar.has-back .back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--tap);
+  min-width: var(--tap);
+  padding: 0 12px 0 8px;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+.back:active { background: var(--curb); }
+.topbar.has-back .brand { display: none; }
+.back svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.topbar-title {
+  margin-left: auto;
+  padding-right: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  font: 700 13px/1 var(--display);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ---------- Building blocks ---------- */
+.card {
+  background: var(--pit);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.section { margin-top: 28px; }
+
+.label {
+  margin: 0 0 10px;
+  padding: 0 4px;
+  color: var(--muted);
+  font: 700 12px/1 var(--display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.time {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--curb);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pill.neon { color: var(--neon); border-color: color-mix(in oklab, var(--neon) 40%, transparent); background: color-mix(in oklab, var(--neon) 10%, transparent); }
+.pill.gold { color: var(--gold); border-color: color-mix(in oklab, var(--gold) 40%, transparent); background: color-mix(in oklab, var(--gold) 10%, transparent); }
+
+.chev { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Checkered accent strip */
+.checker {
+  height: 8px;
+  background-image:
+    linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%),
+    linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  opacity: 0.1;
+}
+
+/* ---------- Hero (fastest lap ever / personal best) ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-color: color-mix(in oklab, var(--neon) 40%, transparent);
+  box-shadow: 0 0 40px -12px color-mix(in oklab, var(--neon) 45%, transparent);
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--neon) 12%, transparent), transparent 70%),
+    var(--pit);
+}
+.hero-body { padding: 20px 16px 22px; }
+.hero-kicker {
+  margin: 0;
+  color: var(--neon);
+  font: 700 12px/1 var(--display);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.hero-time {
+  margin: 10px 0 6px;
+  font-size: clamp(44px, 14vw, 60px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+.hero-who {
+  margin: 0;
+  font: italic 700 26px/1.1 var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.hero-meta { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+/* ---------- Tappable list rows ---------- */
+.list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 12px;
+  background: var(--pit);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.row:hover { border-color: #3a404c; }
+.row:active { background: var(--curb); transform: scale(0.99); }
+.row:focus-visible, .back:focus-visible, .brand:focus-visible, .tab:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+.row-main { flex: 1; min-width: 0; }
+.row-title {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 700 19px/1.15 var(--display);
+  letter-spacing: 0.02em;
+}
+.row-sub { margin: 2px 0 0; color: var(--muted); font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.row-end { text-align: right; }
+.row-end .time { font-size: 16px; font-weight: 600; }
+.row-end .gap { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+
+.rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--curb);
+  color: var(--muted);
+  font: italic 700 20px/1 var(--display);
+}
+.rank.p1 { color: var(--gold); border-color: color-mix(in oklab, var(--gold) 45%, transparent); background: color-mix(in oklab, var(--gold) 14%, transparent); }
+.rank.p2 { color: var(--silver); border-color: color-mix(in oklab, var(--silver) 35%, transparent); background: color-mix(in oklab, var(--silver) 10%, transparent); }
+.rank.p3 { color: var(--bronze); border-color: color-mix(in oklab, var(--bronze) 45%, transparent); background: color-mix(in oklab, var(--bronze) 14%, transparent); }
+
+.row.leader { border-color: color-mix(in oklab, var(--gold) 35%, transparent); }
+.row.leader .row-end .time { color: var(--gold); }
+
+/* Race row date block */
+.date-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--curb);
+  line-height: 1;
+}
+.date-block b { font: 900 20px/1 var(--display); }
+.date-block small { margin-top: 3px; color: var(--muted); font: 700 10px/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ---------- Profile header ---------- */
+.profile-head { display: flex; align-items: center; gap: 14px; padding: 4px 4px 0; }
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in oklab, var(--neon) 40%, transparent);
+  background: color-mix(in oklab, var(--neon) 10%, var(--pit));
+  color: var(--neon);
+  font: italic 700 32px/1 var(--display);
+}
+.profile-name { margin: 0; font: italic 700 36px/1 var(--display); text-transform: uppercase; letter-spacing: 0.01em; }
+.profile-sub { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ---------- Stats grid ---------- */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+.stat { padding: 14px; }
+.stat.wide { grid-column: 1 / -1; }
+.stat-label { margin: 0; color: var(--muted); font: 700 11px/1 var(--display); letter-spacing: 0.18em; text-transform: uppercase; }
+.stat-value { margin: 8px 0 0; font: 900 32px/1 var(--display); }
+.stat-value.time { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--neon); }
+.stat-note { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+
+.track-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.track-list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 600; }
+.track-list li span:first-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* ---------- Race header ---------- */
+.race-head { padding: 18px 16px; }
+.race-num { margin: 0; color: var(--neon); font: 900 13px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase; }
+.race-track { margin: 8px 0 0; font: italic 700 30px/1.05 var(--display); text-transform: uppercase; }
+.race-facts { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 16px; border-top: 1px solid var(--line); }
+.race-facts div { padding: 12px 0 0; }
+.race-facts div + div { padding-left: 12px; border-left: 1px solid var(--line); }
+.race-facts dt { color: var(--muted); font: 700 11px/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; }
+.race-facts dd { margin: 6px 0 0; font: 700 18px/1.1 var(--display); }
+
+/* Participant tabs */
+.tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px; margin: 0 -2px; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--pit);
+  color: var(--muted);
+  font: 700 16px/1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tab[aria-current="page"] { color: var(--asphalt); background: var(--neon); border-color: var(--neon); }
+
+/* Session summary */
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.summary .stat { padding: 12px; }
+.summary .stat-value { font-size: 18px; }
+.summary .stat-value.time { font-size: 17px; }
+
+/* ---------- Lap table ---------- */
+.laps { overflow: hidden; }
+.lap-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+}
+.lap-row:first-child { border-top: 0; }
+.lap-head { min-height: 36px; color: var(--muted); font: 700 11px/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; }
+.lap-no { color: var(--muted); font: 900 18px/1 var(--display); }
+.lap-bar { position: relative; height: 6px; border-radius: 999px; background: var(--curb); overflow: hidden; }
+.lap-bar i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: #3a404c; }
+.lap-time { text-align: right; }
+.lap-time .time { font-size: 15px; font-weight: 600; }
+.lap-time .gap { display: block; color: var(--muted); font-size: 11px; font-family: var(--mono); }
+
+.lap-row.best {
+  background: linear-gradient(90deg, color-mix(in oklab, var(--gold) 16%, transparent), color-mix(in oklab, var(--neon) 8%, transparent));
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+.lap-row.best .lap-no, .lap-row.best .time { color: var(--gold); }
+.lap-row.best .lap-bar i { background: linear-gradient(90deg, var(--gold), var(--neon)); }
+.lap-row.slow .time { color: var(--flag); }
+
+/* ---------- Tooltips (hover on desktop, focus via keyboard/tap) ---------- */
+.tip {
+  position: relative;
+  cursor: help;
+  text-decoration: underline dotted color-mix(in oklab, currentColor 50%, transparent);
+  text-underline-offset: 3px;
+}
+.pill.tip { text-decoration: none; }
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: max-content;
+  max-width: 230px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--curb);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+  color: var(--text);
+  font: 500 12px/1.4 var(--body);
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.12s, transform 0.12s;
+}
+.tip.tip-start::after { right: auto; left: 0; }
+.tip:hover::after,
+.tip:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tip:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; border-radius: 4px; }
+
+.footnote { margin: 10px 4px 0; color: var(--muted); font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .row, .tip::after { transition: none; }
+}
