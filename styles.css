@@ -315,23 +315,34 @@ main {
 .race-facts dt { color: var(--muted); font: 700 11px/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; }
 .race-facts dd { margin: 6px 0 0; font: 700 18px/1.1 var(--display); }
 
-/* Participant tabs */
-.tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px; margin: 0 -2px; scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }
+/* Participant tabs: one row when they fit, 2 per row on narrow phones */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+@media (max-width: 420px) {
+  .tabs.many { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 .tab {
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 0;
   min-height: var(--tap);
-  padding: 0 16px;
+  padding: 0 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--pit);
   color: var(--muted);
-  font: 700 16px/1 var(--display);
+  font: 700 15px/1 var(--display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  white-space: nowrap;
+  transition: border-color 0.12s, color 0.12s;
 }
+.tab span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tab:hover { border-color: #3a404c; color: var(--text); }
 .tab[aria-current="page"] { color: var(--asphalt); background: var(--neon); border-color: var(--neon); }
 
 /* Session summary */

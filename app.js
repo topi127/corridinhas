@@ -255,10 +255,10 @@
 
     const tabs =
       race.participants.length > 1
-        ? `<nav class="tabs section" aria-label="Participants">${race.participants
+        ? `<nav class="tabs${race.participants.length > 3 ? " many" : ""}" style="--cols:${Math.min(race.participants.length, 4)}" aria-label="Participants">${race.participants
             .map((pid) => {
               const p = getDriver(pid);
-              return `<a class="tab" href="${raceHref(pid, race.id)}"${pid === driverId ? ' aria-current="page"' : ""}>${esc(p ? p.name : pid)}</a>`;
+              return `<a class="tab" href="${raceHref(pid, race.id)}"${pid === driverId ? ' aria-current="page"' : ""}><span>${esc(p ? p.name : pid)}</span></a>`;
             })
             .join("")}</nav>`
         : "";
